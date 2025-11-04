@@ -1,4 +1,5 @@
 node_modules/
 tmp/
+cmd/server
 
 conf.json
