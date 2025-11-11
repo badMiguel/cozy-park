@@ -41,7 +41,7 @@ document.addEventListener("DOMContentLoaded", async function () {
     const asset = await fetchAsset();
     fetchLoadContainer.hidden = true;
 
-    await login();
+    // await login();
 
     playerSelect()
         .then((selected) => {
@@ -183,7 +183,7 @@ function main(asset) {
         Firework: { x: Area.Firework.x, y: Area.Firework.y },
     };
 
-    const socket = new WebSocket("wss://happy5thanniversary.win/ws");
+    const socket = new WebSocket("wss://cozypark.badmiguel.com/ws");
     socket.onopen = () => {
         const data = {
             color: Player.color,

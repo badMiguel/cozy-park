@@ -5,7 +5,7 @@ import (
 	"fmt"
 	"log"
 	"net/http"
-	"os"
+	// "os"
 	"sync"
 	"time"
 
@@ -138,7 +138,7 @@ type ResponseData struct {
 
 func main() {
 	mux := http.NewServeMux()
-	mux.HandleFunc("/login", handleLogin)
+	// mux.HandleFunc("/login", handleLogin)
 	mux.HandleFunc("/ws", handleConnections)
 
 	go handleMoveBroadcast()
@@ -148,7 +148,7 @@ func main() {
 	go handleFerrisState()
 	go handleBenchBroadcast()
 
-	log.Fatal(http.ListenAndServe(":1205", corsMiddleware(mux)))
+	log.Fatal(http.ListenAndServe(":8080", corsMiddleware(mux)))
 }
 
 func corsMiddleware(next http.Handler) http.Handler {
@@ -166,24 +166,24 @@ func corsMiddleware(next http.Handler) http.Handler {
 	})
 }
 
-func handleLogin(w http.ResponseWriter, req *http.Request) {
-	if req.Method == http.MethodPost {
-		var loginRequest LoginRequest
-		err := json.NewDecoder(req.Body).Decode(&loginRequest)
-		if err != nil {
-			http.Error(w, "invalid request bode", http.StatusBadRequest)
-		}
-
-		response := &ResponseData{}
-		if loginRequest.Password == os.Getenv("PASSWORD") {
-			response.Status = true
-		}
-
-		w.Header().Set("Content-Type", "application/json")
-		w.WriteHeader(http.StatusOK)
-		json.NewEncoder(w).Encode(response)
-	}
-}
+// func handleLogin(w http.ResponseWriter, req *http.Request) {
+// 	if req.Method == http.MethodPost {
+// 		var loginRequest LoginRequest
+// 		err := json.NewDecoder(req.Body).Decode(&loginRequest)
+// 		if err != nil {
+// 			http.Error(w, "invalid request bode", http.StatusBadRequest)
+// 		}
+//
+// 		response := &ResponseData{}
+// 		if loginRequest.Password == os.Getenv("PASSWORD") {
+// 			response.Status = true
+// 		}
+//
+// 		w.Header().Set("Content-Type", "application/json")
+// 		w.WriteHeader(http.StatusOK)
+// 		json.NewEncoder(w).Encode(response)
+// 	}
+// }
 
 func newPlayerList() *PlayerList {
 	return &PlayerList{pList: make(map[*Player]bool)}
